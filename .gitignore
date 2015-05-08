@@ -58,3 +58,5 @@ target/
 
 *.sqlite3
 
+src/media*
+src/collected-static*
