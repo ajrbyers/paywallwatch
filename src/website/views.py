@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 from blog import models as blog_models
 from website import models
-
+from website import forms
 # Create your views here.
 
 def home(request):
@@ -36,17 +36,71 @@ def home(request):
 def about(request):
 
 	template = 'about.html'
-	context = {}
+	context = {
+		'page': get_object_or_404(models.Page, slug='about', status=2)
+	}
 
 	return render(request, template, context)
 
 def page(request, page):
 
-	page = get_object_or_404(models.Page, slug=page)
+	page = get_object_or_404(models.Page, slug=page, status=2)
 
 	template = 'page.html'
 	context = {
 		'page': page,
+	}
+
+	return render(request, template, context)
+
+def new(request):
+
+	form = forms.PageEdit()
+
+	if request.POST:
+		form = forms.PageEdit(request.POST)
+		if form.is_valid():
+			new_page = form.save(commit=False)
+			new_page.author = request.user
+			new_page.save()
+
+			if new_page.status == 2:
+				messages.add_message(request, messages.SUCCESS, 'Page saved and published.')
+			else:
+				messages.add_message(request, messages.INFO, 'Draft page saved.')
+
+			return redirect(reverse('dashboard'))
+
+	template = 'edit_page.html'
+	context = {
+		'form': form, 
+	}
+
+	return render(request, template, context)
+
+def edit(request, slug):
+
+	page = get_object_or_404(models.Page, slug=slug)
+
+	form = forms.PageEdit(instance=page)
+
+	if request.POST:
+		form = forms.PageEdit(request.POST, instance=page)
+		if form.is_valid():
+			updated_post = form.save()
+
+			if updated_post.status == 2:
+				messages.add_message(request, messages.SUCCESS, 'Page saved and published.')
+			else:
+				messages.add_message(request, messages.INFO, 'Draft page saved.')
+
+			return redirect(reverse('dashboard'))
+
+
+	template = 'edit_page.html'
+	context = {
+		'page': page,
+		'form': form,
 	}
 
 	return render(request, template, context)

@@ -151,7 +151,7 @@ SUMMERNOTE_CONFIG = {
 
     # Change editor size
     'width': '100%',
-    'height': '250',
+    'height': '600',
 
     # Need authentication while uploading attachments.
     'attachment_require_authentication': True,

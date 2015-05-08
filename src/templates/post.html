@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+    {% block header %}
+    <header class="intro-header" style="background-image: url('{% static "img/about-bg.jpg" %}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>{{ post.title }}</h1>
+                        <span class="meta">Posted by <a href="#">{{ post.author.first_name }} {{ post.author.last_name }}</a> on {{ post.publish|date:"d M, Y"}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    {% endblock header %}
+
+    {% block content %}
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    {{ post.body|safe }}
+                </div>
+            </div>
+        </div>
+    </article>
+    {% endblock content %}

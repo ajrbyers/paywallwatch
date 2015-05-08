@@ -21,6 +21,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^blog/', include('blog.urls')),
     url(r'^summernote/', include('django_summernote.urls')),
 
     url(r'^$', 'website.views.home', name='home'),
@@ -28,14 +29,18 @@ urlpatterns = [
 
     # Admin Dash
     url(r'^dashboard/$', 'website.views.dashboard', name='dashboard'),
-    url(r'^dashboard/blog/edit/(?P<slug>[-\w]+)$', 'blog.views.edit', name='edit'),
+    url(r'^dashboard/blog/new/', 'blog.views.new', name='new'),
+    url(r'^dashboard/blog/edit/(?P<slug>[-\w]+)/$', 'blog.views.edit', name='edit'),
 
-    # Custom Pages
-    url(r'^(?P<page>[-\w]+)/$', 'website.views.page', name='page'),
+    url(r'^dashboard/page/new/$', 'website.views.new', name='new_page'),
+    url(r'^dashboard/page/edit/(?P<slug>[-\w]+)/$', 'website.views.edit', name='edit_page'),
 
     # Auth URLS
     url(r'^login/$', 'website.views.login', name='login'),
     url(r'^logout/$', 'website.views.logout', name='logout'),
+
+    # Custom Pages
+    url(r'^(?P<page>[-\w]+)/$', 'website.views.page', name='page'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

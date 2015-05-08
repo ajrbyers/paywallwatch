@@ -16,6 +16,7 @@
             <br />
             <div class="col-md-5">
                 <h4>Recent Posts</h4>
+                <h5><a href="{% url 'new' %}">Add New</a></h5>
                 <div class="list-group">
                     {% for post in latest_blog_posts %}
                     <a href="{% url 'edit' post.slug %}" class="list-group-item">
@@ -27,9 +28,10 @@
             </div>
             <div class="col-md-5 col-md-offset-2">
                 <h4>Site Pages</h4>
+                <h5><a href="{% url 'new_page' %}">Add New</a></h5>
                 <div class="list-group">
                     {% for page in website_pages %}
-                    <a href="#" class="list-group-item">
+                    <a href="{% url 'edit_page' page.slug %}" class="list-group-item">
                         <h4 class="list-group-item-heading">{{ page.title }}</h4>
                         <p class="list-group-item-text">Status: {{ page.get_status_display }}, Modified: {{ page.modified|date:"d/m/Y H:i" }}</p>
                     </a>

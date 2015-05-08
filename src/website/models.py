@@ -15,7 +15,7 @@ class Page(models.Model):
 	)
 
 	title = models.CharField(_('title'), max_length=200)
-	slug = models.SlugField(_('slug'), unique_for_date='publish')
+	slug = models.SlugField(_('slug'), unique_for_date='publish', help_text='This makes up the page url /about/ or /board/')
 	author = models.ForeignKey(User, blank=True, null=True)
 	body = models.TextField(_('body'), )
 	status = models.IntegerField(_('status'), choices=STATUS_CHOICES, default=2)
