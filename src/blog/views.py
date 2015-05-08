@@ -2,12 +2,14 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from blog import models
 from blog import forms
 
 # Create your views here.
 
+@login_required
 def new(request):
 	form = forms.PostEdit()
 
@@ -35,6 +37,7 @@ def new(request):
 
 	return render(request, template, context)
 
+@login_required
 def edit(request, slug):
 	post = get_object_or_404(models.Post, slug=slug)
 	current_post_status = post.status

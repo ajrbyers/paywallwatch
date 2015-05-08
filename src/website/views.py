@@ -53,6 +53,7 @@ def page(request, page):
 
 	return render(request, template, context)
 
+@login_required
 def new(request):
 
 	form = forms.PageEdit()
@@ -78,6 +79,7 @@ def new(request):
 
 	return render(request, template, context)
 
+@login_required
 def edit(request, slug):
 
 	page = get_object_or_404(models.Page, slug=slug)
