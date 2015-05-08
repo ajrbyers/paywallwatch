@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load static from staticfiles %}
+
+    {% block header %}
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    {% include "admin-header.html" %}
+    {% endblock header %}
+
+    {% block content %}
+    <div class="container admin">
+        <div class="row">
+            <h3 class="form-signin-heading">Dashboard</h3>
+            <hr />
+            <form method="POST" role="form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    {% bootstrap_field form.title %}
+                    {% bootstrap_field form.slug %}
+                    {% bootstrap_field form.tease %}
+                    <label class="control-label" for="id_body">Body</label>
+                    {{ form.body|safe }}
+                    {% bootstrap_field form.status %}
+                    {% bootstrap_field form.allow_comments %}
+                </div>
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary">
+                    {% bootstrap_icon "ok" %} Submit
+                    </button>
+                {% endbuttons %}
+            </form>
+        </div>
+    </div>
+    {% endblock content %}

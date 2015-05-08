@@ -15,13 +15,29 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^summernote/', include('django_summernote.urls')),
+
     url(r'^$', 'website.views.home', name='home'),
     url(r'^about/$', 'website.views.about', name='about'),
+
+    # Admin Dash
+    url(r'^dashboard/$', 'website.views.dashboard', name='dashboard'),
+    url(r'^dashboard/blog/edit/(?P<slug>[-\w]+)$', 'blog.views.edit', name='edit'),
+
+    # Custom Pages
+    url(r'^(?P<page>[-\w]+)/$', 'website.views.page', name='page'),
 
     # Auth URLS
     url(r'^login/$', 'website.views.login', name='login'),
     url(r'^logout/$', 'website.views.logout', name='logout'),
 ]
+
+urlpatterns += staticfiles_urlpatterns()
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

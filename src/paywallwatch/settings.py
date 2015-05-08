@@ -45,6 +45,7 @@ INSTALLED_APPS = (
 
     # 3rd Party apps
     'bootstrap3',
+    'django_summernote',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -117,4 +118,42 @@ STATIC_URL = '/static/'
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
+}
+
+DATE_FORMAT = '%d %b, %Y'
+DATETIME_FORMAT = '%d/%M/%Y %H:%M'
+
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: "/var/www/example.com/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://example.com/media/", "http://media.example.com/"
+MEDIA_URL = '/media/'
+
+UPLOAD_ROOT = os.path.join(BASE_DIR, 'uploads')
+
+
+SUMMERNOTE_CONFIG = {
+    # Using SummernoteWidget - iframe mode
+    'iframe': True,  # or set False to use SummernoteInplaceWidget - no iframe mode
+
+    # Using Summernote Air-mode
+    'airMode': False,
+
+    # Use native HTML tags (`<b>`, `<i>`, ...) instead of style attributes
+    # (Firefox, Chrome only)
+    'styleWithTags': True,
+
+    # Set text direction : 'left to right' is default.
+    'direction': 'ltr',
+
+    # Change editor size
+    'width': '100%',
+    'height': '250',
+
+    # Need authentication while uploading attachments.
+    'attachment_require_authentication': True,
+    
 }

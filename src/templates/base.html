@@ -17,7 +17,7 @@
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{% static "css/clean-blog.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/clean-blog.css" %}" rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{% static "favicon.ico" %}" />
@@ -65,7 +65,7 @@
                         <a href="contact.html">Contact</a>
                     </li>
                     {% if user.is_authenticated %}
-                    {% if user.is_staff %}<li><a href="#">Admin</a></li>
+                    {% if user.is_staff %}<li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                     {% endif %}
                     <li><a href="{% url 'logout' %}"><i class="fa fa-unlock">&nbsp;</i>Logout</a></li>
                     {% else %}

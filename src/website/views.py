@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth import logout as logout_user
@@ -9,12 +9,27 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 
+from blog import models as blog_models
+from website import models
+
 # Create your views here.
 
 def home(request):
 
+	page = int(request.GET.get('page', 0))
+
+	offset = page * 5
+	limit = (page + 1) * 5
+
+	print offset, limit
+
+	posts = blog_models.Post.objects.filter(status=2).order_by('-publish')[offset:limit]
+
 	template = 'index.html'
-	context = {}
+	context = {
+		'posts': posts,
+		'page': page,
+	}
 
 	return render(request, template, context)
 
@@ -22,6 +37,31 @@ def about(request):
 
 	template = 'about.html'
 	context = {}
+
+	return render(request, template, context)
+
+def page(request, page):
+
+	page = get_object_or_404(models.Page, slug=page)
+
+	template = 'page.html'
+	context = {
+		'page': page,
+	}
+
+	return render(request, template, context)
+
+@login_required
+def dashboard(request):
+
+	latest_blog_posts = blog_models.Post.objects.all().order_by('-created')[:5]
+	website_pages = models.Page.objects.all().order_by('-title')
+
+	template = 'dashboard.html'
+	context = {
+		'latest_blog_posts': latest_blog_posts,
+		'website_pages': website_pages,
+	}
 
 	return render(request, template, context)
 
@@ -61,3 +101,4 @@ def logout(request):
 	messages.info(request, 'You have been logged out.')
 	logout_user(request)
 	return redirect(reverse('home'))
+
